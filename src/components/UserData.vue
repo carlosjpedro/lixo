@@ -2,11 +2,11 @@
   <ul>
     <li>
       <label>username : </label>
-      <input type="text" v-model="username" @input="usernameChanged" />
+      <input type="text" :value="username" @input="usernameChanged" />
     </li>
     <li>
       <label>age : </label>
-      <input type="number" v-model="age" @input="ageChanged" />
+      <input type="number" :value="age" @input="ageChanged" />
     </li>
   </ul>
 </template>
@@ -24,13 +24,15 @@ export default {
     },
   },
   emits: ["username-updated", "age-updated"],
-  methods: {
-    ageChanged(event) {
-      this.$emit("age-updated", event.target.value);
-    },
-    usernameChanged(event) {
-      this.$emit("username-updated", event.target.value);
-    },
+  setup(props, { emit }) {
+    const ageChanged = function (event) {
+      emit("age-updated", event.target.value);
+    };
+    const usernameChanged = function (event) {
+      emit("username-updated", event.target.value);
+    };
+
+    return { ageChanged, usernameChanged };
   },
 };
 </script>
